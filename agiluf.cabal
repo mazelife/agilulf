@@ -3,6 +3,8 @@ Version:             0.0.1
 Synopsis:            A static blogging tool using Pandoc
 Description:         A baisc, static blogging engine built using Pandoc.
                      SUpports multiple authors and tags
+Homepage:            https://github.com/mazelife/agilulf
+Category:            Blog, Web
 License:             BSD
 License-file:        LICENSE
 Author:              James Stevenson
@@ -11,3 +13,19 @@ Build-Depends:       Pandoc
 
 Executable:          agiluf
 Main-is:             Agiluf.hs
+
+Stability:           Experimental
+Tested-With:         GHC==7.4.2
+
+
+Source-Repository head
+  type:     git
+  location: https://github.com/mazelife/agilulf/
+
+
+Library
+    Build-Depends:
+        pandoc==1.11.1,
+        pandoc-types==1.10,
+        hastache==0.5.0
+    GHC-Options:     -XTemplateHaskell -XNoMonomorphismRestriction
