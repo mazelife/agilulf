@@ -67,3 +67,9 @@ Compiling
 The following should be sufficient to compile the ``agiluf`` binary::
 
     ghc -o agiluf -XTemplateHaskell -XNoMonomorphismRestriction main.hs
+
+
+Colophon
+--------
+
+Why the name? There were a `couple <http://en.wikipedia.org/wiki/Agilulf>`_ of `historical <http://en.wikipedia.org/wiki/Agilulf_(Bishop_of_Metz)>`_ figures who bore this sobriquet. However, I took the name from Italo Calvino's wonderful novel `The Nonexistent Knight <http://en.wikipedia.org/wiki/The_Nonexistent_Knight>`_. It's something of a nod to the challenges of learning Haskell.
