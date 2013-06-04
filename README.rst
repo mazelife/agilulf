@@ -9,7 +9,7 @@ A basic static blogging engine, written in Haskell. It's meant to be bare-bones 
 * multiple authors
 * RSS
 
-It's built on top of the awesome `Pandoc <http://johnmacfarlane.net/pandoc/>`_ document converter. You just write your blog entries in `RST <http://docutils.sourceforge.net/docs/ref/rst/introduction.html>`_, add a little metadata to the top, and let Agiluf do the rest.
+It's built on top of the awesome `Pandoc <http://johnmacfarlane.net/pandoc/>`_ document converter. You just write your blog entries in `RST <http://docutils.sourceforge.net/docs/ref/rst/introduction.html>`_, add a little metadata to the top, and let Agiluf do the rest. Templating uses `Hastache <https://github.com/lymar/hastache>`_, a Haskell implementation of Mustache templates.
 
 
 A typical project structure::
@@ -61,12 +61,6 @@ The blog will be output into the ``publish`` folder (as shown above). No fancy p
 
     ?> rsync -avh /path/to/my_blog/publish/ me@myserver.com:/var/www
 
-Compiling
----------
-
-The following should be sufficient to compile the ``agiluf`` binary::
-
-    ghc -o agiluf -XTemplateHaskell -XNoMonomorphismRestriction main.hs
 
 
 Colophon
