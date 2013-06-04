@@ -1,0 +1,13 @@
+Name:                agiluf
+Version:             0.0.1
+Synopsis:            A static blogging tool using Pandoc
+Description:         A baisc, static blogging engine built using Pandoc.
+                     SUpports multiple authors and tags
+License:             BSD
+License-file:        LICENSE
+Author:              James Stevenson
+Maintainer:          James Stevenson <james.m.stevenson@gmail.com>
+Build-Depends:       Pandoc
+
+Executable:          agiluf
+Main-is:             Agiluf.hs
