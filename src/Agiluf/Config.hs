@@ -9,7 +9,7 @@ import Text.Pandoc.Options
 -- | The base URL of the website
 base_url = "http://www.example.com"
 -- | The directory where the project is located
-base_directory = "/Users/jstevenson/src/mazelife"
+base_directory = "/Users/jstevenson/src/agiluf_env/agiluf/example_blog"
 -- | The directory where blog entries are located
 entry_directory = joinPath [base_directory, "entries"]
 -- | The number of entries on a page.
@@ -25,7 +25,7 @@ tag_template = joinPath [template_directory, "tag.html"]
 -- | The directory where the static site should be published
 output_directory = joinPath [base_directory, "output"]
 -- | The path to the JSON index
-json_path =  joinPath [output_directory, "index.json"]
+static_directory = joinPath [base_directory, "static"]
 -- | How dates shoudl be formatted.
 date_format = "%B %e, %Y %l:%M %p"
 -- | Number of recent posts to show in RSS

@@ -18,6 +18,7 @@ import Definition
 import Entry (getSortedEntries)
 import Navigation (getEntryNavigation, paginate)
 import Pandoc (readEntries)
+import Static
 import Tags
 
 
@@ -39,7 +40,7 @@ renderPage template page = do
 paginateIndex :: IO [Entry] -> IO [IndexPage]
 paginateIndex es = do
     entries <- es
-    let makePage (nav, entries, num) = IndexPage entries nav num
+    let makePage (nav, entries, num) = IndexPage entries nav num site_name site_description
     return $ map makePage (paginate 2 entries)
 
 
@@ -61,9 +62,8 @@ renderTagIndex template page = do
 
 publish path = do
 
-    -- | Create initial output directories.
-    createDirectoryIfMissing False output_directory
-    createDirectoryIfMissing False (joinPath [output_directory, "tags"])
+    createOutputDirectories output_directory
+    copyStaticFiles static_directory output_directory
 
     let es = getSortedEntries path
 

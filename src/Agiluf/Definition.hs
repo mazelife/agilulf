@@ -47,6 +47,8 @@ data IndexNavigation = IndexNavigation { currentIndex :: String
 data IndexPage = IndexPage { entries :: [Entry]
                            , indexNavigation :: IndexNavigation
                            , number :: Int
+                           , siteName :: String
+                           , siteDescription :: String
                            } deriving (Show, Data, Typeable)
 
 
