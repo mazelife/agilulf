@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7]><html lang="en" class="iem7"><![endif]-->
+<!--[if (lte IE 7)&!(IEMobile)]><html lang="en" class="ie oldie"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html lang="en" class="ie ie8"><![endif]-->
+<!--[if IE 9]><html lang="en" class="ie ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)|!(IEMobile)]><!--><html lang="en"><!--<![endif]-->
+<head>
+    <meta charset="utf-8" />
+    <title>{{title}}</title>
+    <!--[if lte IE 6]><meta http-equiv="imagetoolbar" content="no" /><![endif]-->
+    <!--[if IE]>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="cleartype" content="on" />
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="{{siteDescription}}" />
+    <link rel="shortcut icon" href="static/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="static/css/libs/bootstrap.css" media="screen,handheld,print" />
+    <link rel="stylesheet" href="static/css/typography.css" media="screen,handheld,print" />
+    <link rel="stylesheet" href="static/css/basic.css" media="screen,handheld,print" />
+    <link rel="stylesheet" href="static/css/mobile.css" media="only screen and (min-width: 320px) and (max-width:719px)" />
+    <link rel="stylesheet" href="static/css/desktop.css" media="only screen and (min-width: 720px)" />
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" href="static/css/desktop.css" media="screen" />
+    <![endif]-->
+</head>
+<body class="about">
+    <header id="header">
+        <h1 id="logo">{{siteName}}</h1>
+        <nav id="primary">
+            <ul>
+                <li class="blog active"><a href="/">Blog</a></li>
+                <li class="about"><a href="/about.html">About</a></li>
+                <li class="projects"><a href="/projects.html">Projects</a></li>
+            </ul>
+        </nav>
+    </header>
+        <article>
+            <dl class="meta">
+                <dt>Posted</dt>
+                <dd><time>{{displayDate}}</time></dd>
+                <dt>By</dt>
+                <dd>{{#authors}}{{.}}{{/authors}}</dd>
+                <dt>Tags</dt>
+                <dd>
+                    {{#tags}}
+                        <a href="{{tagHref}}">{{tagName}}</a>
+                    {{/tags}}
+                .</dd>
+            </dl>
+            <h1>{{title}}</h1>
+            {{html}}
+        </article>
+    </div>
+    <nav id="pagination">
+        <ul>
+        {{#entryNavigation.previousEntry}}
+            <li id="previous"><a href="{{entryNavigation.previousIndexHref}}">{{entryNavigation.previousEntryLabel}}</a></li>
+        {{/entryNavigation.previousIndex}}
+        {{#entryNavigation.nextIndex}}
+            <li id="next"><a href="{{entryNavigation.nextIndexHref}}">{{entryNavigation.nextEntryLabel}}</a></li>
+        {{/entryNavigation.nextIndex}}
+        </ul>
+    </nav>
+    <footer id="footer">&copy; 2013 &mdash; James Stevenson</footer>
+    <script data-main="static/javascript/main" src="static/javascript/libs/require.js"></script>
+</body>
