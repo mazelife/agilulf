@@ -2,6 +2,7 @@ module Tags where
 
 
 import Control.Applicative ((<$>))
+import Control.Monad (liftM)
 import Data.Char (isAlphaNum, toLower)
 import Data.List (concatMap, nub)
 import qualified Data.Map as Map
@@ -18,20 +19,16 @@ getTagCloud entries = (nub . concatMap tagNames) <$> entries
     where tagNames e = map tagName (tags e)
 
 
-getTagPages :: (String, [Entry]) -> [TagPage]
-getTagPages (tag, entries) = map makeTagPage pages
-    where pages = paginate entries_per_page entries
-          makeTagPage (nav, es, page) = TagPage es nav page tag
+paginateTagIndex :: IO [Entry] -> IO [TagPage]
+paginateTagIndex entries = liftM entriesToPages entries
+    where entriesToPages es = map (\(t, es) -> TagPage (getTag t) es) (Map.toList $ mapTags es)
+
 
 
 mapTags :: [Entry] -> Map.Map String [Entry]
 mapTags entries = tagMap (concatMap getTags entries)
     where getTags entry = [((tagName tag), entry) | tag <- tags entry]
           tagMap xs = Map.fromListWith (++) $ map (\(k,v) -> (k,[v])) xs
-
-
-paginateTagIndex :: IO [Entry] -> IO [TagPage]
-paginateTagIndex es = (concatMap getTagPages) . Map.toList . mapTags <$> es
 
 
 -- | Convert a tag name to its HTML slug.

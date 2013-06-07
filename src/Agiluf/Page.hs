@@ -55,7 +55,7 @@ renderIndex template page = do
 renderTagIndex :: String -> TagPage -> IO ()
 renderTagIndex template page = do
     let context = mkGenericContext page
-    let slug = tagSlug $ tag page
+    let slug = tagHref $ tag page
     let writeIndex = LZ.writeFile (get_page_path slug)
     hastacheStr defaultConfig (encodeStr template) context >>= writeIndex
 
@@ -77,6 +77,6 @@ publish path = do
 
     tag_pages <- paginateTagIndex es
     tag_template_file <- readFile tag_template
-    mapM (renderTagIndex index_template_file) $ tag_pages
+    mapM (renderTagIndex tag_template_file) $ tag_pages
 
     putStrLn "All done!"

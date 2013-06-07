@@ -1,0 +1,16 @@
+dt {
+    float: left;
+    padding-right: 1em;
+}
+
+dt:after {
+    content: ": ";
+}
+
+dd.tags a:after {
+    content: ", ";
+}
+
+dd.tags a:last-child:after {
+    content: "";
+}

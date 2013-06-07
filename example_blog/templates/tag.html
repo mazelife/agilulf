@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7]><html lang="en" class="iem7"><![endif]-->
+<!--[if (lte IE 7)&!(IEMobile)]><html lang="en" class="ie oldie"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html lang="en" class="ie ie8"><![endif]-->
+<!--[if IE 9]><html lang="en" class="ie ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)|!(IEMobile)]><!--><html lang="en"><!--<![endif]-->
+<head>
+    <meta charset="utf-8" />
+    <title>{{tag.tagName}}</title>
+    <!--[if lte IE 6]><meta http-equiv="imagetoolbar" content="no" /><![endif]-->
+    <!--[if IE]>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="cleartype" content="on" />
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{{siteDescription}}" />
+    <link rel="shortcut icon" href="static/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="../static/css/libs/bootstrap.css" media="screen,handheld,print" />
+    <link rel="stylesheet" href="../static/css/typography.css" media="screen,handheld,print" />
+    <link rel="stylesheet" href="../static/css/basic.css" media="screen,handheld,print" />
+    <link rel="stylesheet" href="../static/css/mobile.css" media="only screen and (min-width: 320px) and (max-width:719px)" />
+    <link rel="stylesheet" href="../static/css/desktop.css" media="only screen and (min-width: 720px)" />
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" href="../static/css/desktop.css" media="screen" />
+    <![endif]-->
+</head>
+<body>
+    <div class="container">
+            <h1>{{tag.tagName}}</h1>
+
+            {{#tagEntries}}
+            <article>
+                <h2><a href="../{{fileName}}">{{title}}</a></h2>
+                <dl class="meta">
+                    <dt>Posted</dt>
+                    <dd><time>{{displayDate}}</time></dd>
+                    <dt>By</dt>
+                    <dd>{{#authors}}{{.}}{{/authors}}</dd>
+                    <dt>Tags</dt>
+                    <dd class="tags">
+                        {{#tags}}
+                            <a href="{{tagHref}}">{{tagName}}</a>
+                        {{/tags}}
+                    </dd>
+                </dl>
+                <p>{{description}}</p>
+            </article>
+            {{/tagEntries}}
+
+    </div>
+
+</body>
+</html>

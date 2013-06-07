@@ -57,10 +57,8 @@ data Tag = Tag { tagName :: String
                } deriving (Show, Data, Typeable)
 
 
-data TagPage = TagPage { tagEntries :: [Entry]
-                       , tagIndexNavigation :: IndexNavigation
-                       , tagNumber :: Int
-                       , tag :: String
+data TagPage = TagPage { tag :: Tag
+                       , tagEntries :: [Entry]
                        } deriving (Show, Data, Typeable)
 
 
