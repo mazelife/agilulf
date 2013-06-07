@@ -18,7 +18,7 @@ import Definition
 import Entry (getSortedEntries)
 import Navigation (getEntryNavigation, paginate)
 import Pandoc (readEntries)
-import Static
+import File
 import Tags
 
 
