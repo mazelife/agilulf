@@ -33,7 +33,7 @@ paginateEntries es = do
 renderPage :: String -> EntryPage -> IO ()
 renderPage template page = do
     let context = mkGenericContext page
-    let writePost = LZ.writeFile (get_page_path $ slug $ entry page)
+    let writePost = LZ.writeFile (get_page_path $ fileName $ entry page)
     hastacheStr defaultConfig (encodeStr template) context >>= writePost
 
 
@@ -47,7 +47,7 @@ paginateIndex es = do
 renderIndex :: String -> IndexPage -> IO ()
 renderIndex template page = do
     let context = mkGenericContext page
-    let slug = if number page == 1 then "index" else "page" ++ (show $ number page)
+    let slug = if number page == 1 then "index.html" else "page" ++ (show $ number page) ++ ".html"
     let writeIndex = LZ.writeFile (get_page_path slug)
     hastacheStr defaultConfig (encodeStr template) context >>= writeIndex
 

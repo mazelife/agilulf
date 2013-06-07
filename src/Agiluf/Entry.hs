@@ -17,6 +17,7 @@ import Text.Pandoc.Writers.HTML (writeHtml , writeHtmlString)
 import Config (date_format)
 import Definition
 import Pandoc
+import Tags (getTag)
 
 
 parseDatestamp :: String -> UTCTime
@@ -34,13 +35,13 @@ formatDate t = formatTime defaultTimeLocale format_string t
 
 
 getEntry :: Pandoc -> Entry
-getEntry doc = Entry doc _title _date _displayDate _authors _description _slug _tags _html
+getEntry doc = Entry doc _title _date _displayDate _authors _description _fileName _tags _html
     where _title       = getDocTitle doc
           _date        = parseDatestamp $ getDocDate doc
           _displayDate = formatDate _date
           _authors     = getDocAuthors doc
           _description = getDocDescription doc
-          _slug        = getDocSlug doc
+          _fileName    = getDocFilename doc
           _tags        = getDocTags doc
           _html        = getDocHtml doc
 

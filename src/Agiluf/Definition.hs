@@ -16,8 +16,8 @@ data Entry = Entry { doc :: Pandoc
                    , displayDate :: String
                    , authors :: [String]
                    , description :: String
-                   , slug :: String
-                   , tags :: [String]
+                   , fileName :: String
+                   , tags :: [Tag]
                    , html :: String
                    } deriving (Show, Data, Typeable)
 
@@ -50,6 +50,11 @@ data IndexPage = IndexPage { entries :: [Entry]
                            , siteName :: String
                            , siteDescription :: String
                            } deriving (Show, Data, Typeable)
+
+
+data Tag = Tag { tagName :: String
+               , tagHref :: String
+               } deriving (Show, Data, Typeable)
 
 
 data TagPage = TagPage { tagEntries :: [Entry]

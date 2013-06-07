@@ -35,10 +35,9 @@ site_name = "My WebSite"
 -- | Site description
 site_description = "A description of my website"
 
--- | Get the full path for a blog entry given a page slug.
+-- | Get the full path for a blog entry given a page filename.
 get_page_path:: String -> String
-get_page_path slug = let filename = slug ++ ".html"
-                     in  joinPath [output_directory, filename]
+get_page_path filename = joinPath [output_directory, filename]
 
 
 -- | Default Pandoc reader options.

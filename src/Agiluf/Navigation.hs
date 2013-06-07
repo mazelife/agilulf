@@ -33,10 +33,10 @@ getIndexNavigation last_number (current, pages)
 getEntryNavigation :: [Entry] -> [EntryNavigation]
 getEntryNavigation [] = []
 getEntryNavigation [aE, bE] = [firstNavigation aN, lastNavigation bN]
-    where aN = (slug aE ++ ".html", title aE)
-          bN = (slug bE ++ ".html", title bE)
+    where aN = (fileName aE, title aE)
+          bN = (fileName bE, title bE)
 getEntryNavigation entries = map makeNav indexed
-    where slugs = map (\e -> (slug e ++ ".html", title e)) entries
+    where slugs = map (\e -> (fileName e, title e)) entries
           l = length entries
           indexed = zip [1..l] slugs
           makeNav (index, _)

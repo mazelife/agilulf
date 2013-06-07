@@ -12,6 +12,8 @@ import Text.Pandoc.Writers.HTML (writeHtmlString)
 
 
 import Config (reader_options, writer_options)
+import Definition
+import Tags (getTag)
 
 
 -- | Functions for opening and parsing RST files with Pandoc.
@@ -76,14 +78,14 @@ getDocHtml :: Pandoc -> String
 getDocHtml = writeHtmlString writer_options . removeInitialDefinitionList
 
 
-getDocSlug :: Pandoc -> String
-getDocSlug doc = if null slug then error ("Entry \"" ++ getDocTitle doc ++ "\" is missing a slug field.") else snd $ last slug
+getDocFilename :: Pandoc -> String
+getDocFilename doc = if null slug then error ("Entry \"" ++ getDocTitle doc ++ "\" is missing a slug field.") else (snd $ last slug) ++ ".html"
   where def_list = getDocDefinitionList doc
         slug = filter (\p -> fst p == "slug") def_list
 
 
-getDocTags :: Pandoc -> [String]
-getDocTags doc = splitByDelimiter '|' (snd $ last tags)
+getDocTags :: Pandoc -> [Tag]
+getDocTags doc = map getTag (splitByDelimiter '|' (snd $ last tags))
   where def_list = getDocDefinitionList doc
         tags = filter (\p -> fst p == "tags") def_list
         splitByDelimiter :: Char -> String -> [String]
