@@ -22,7 +22,8 @@ paginate n xs = map gn pages
 
 getIndexNavigation :: Int -> (Int, [a]) -> (IndexNavigation, [a], Int)
 getIndexNavigation last_number (current, pages)
-    | current ==  1 = (IndexNavigation current_href False "" True "page2.html", pages, current)
+    | last_number == 1 = (IndexNavigation current_href False "" False "", pages, current)
+    | current == 1 = (IndexNavigation current_href False "" True "page2.html", pages, current)
     | current == last_number = (IndexNavigation current_href True (pHref $ current - 1) False "", pages, current)
     | otherwise = (IndexNavigation current_href True (pHref $ current - 1) True (pHref $ current + 1), pages, current)
     where pHref n = if n == 1 then "index.html" else "page" ++ show n ++ ".html"
