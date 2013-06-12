@@ -37,11 +37,13 @@ renderPage template page = do
     hastacheStr defaultConfig (encodeStr template) context >>= writePost
 
 
-paginateIndex :: IO [Entry] -> IO [IndexPage]
-paginateIndex es = do
+paginateIndex :: IO [Entry] -> IO Blog -> IO [IndexPage]
+paginateIndex es b = do
     entries <- es
-    let makePage (nav, entries, num) = IndexPage entries nav num site_name site_description
-    return $ map makePage (paginate 2 entries)
+    blog <- b
+    let entries_per_page = entriesPerPage blog
+    let makePage (nav, entries, num) = IndexPage entries nav num
+    return $ map makePage (paginate entries_per_page entries)
 
 
 renderIndex :: String -> IndexPage -> IO ()
@@ -60,23 +62,24 @@ renderTagIndex template page = do
     hastacheStr defaultConfig (encodeStr template) context >>= writeIndex
 
 
-publish path = do
+publish blog = do
 
-    createOutputDirectories output_directory
-    copyStaticFiles static_directory output_directory
+    createOutputDirectories blog
+    copyStaticFiles blog
 
-    let es = getSortedEntries path
+    blogConf <- blog
+    let entry_directory = joinPath [(baseDirectory blogConf), "entries"]
+    let es = getSortedEntries entry_directory blogConf
 
     entry_pages <-  paginateEntries es
-    entry_template_file <- readFile entry_template
+    entry_template_file <- readFile $ entryTemplate blogConf
     mapM (renderPage entry_template_file) entry_pages
 
-    index_pages <- paginateIndex es
-    index_template_file <- readFile index_template
+    index_pages <- paginateIndex es blog
+    index_template_file <- readFile $ indexTemplate blogConf
     mapM (renderIndex index_template_file) $ index_pages
 
     tag_pages <- paginateTagIndex es
-    tag_template_file <- readFile tag_template
+    tag_template_file <- readFile $ tagTemplate blogConf
     mapM (renderTagIndex tag_template_file) $ tag_pages
-
     putStrLn "All done!"

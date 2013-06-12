@@ -1,9 +1,13 @@
 import System.Environment
 
+import Config (getBlog)
+import File (getConfig)
 import Page (publish)
-import File (verifyBlogStructure)
 
+
+main :: IO ()
 main = do
+    putStrLn "Hi!"
     (blog_path:_) <- getArgs
-    verifyBlogStructure blog_path
-    publish "entries"
+    let blog = getBlog $ getConfig blog_path
+    publish blog

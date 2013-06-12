@@ -7,7 +7,23 @@ module Definition where
 import Data.Data
 import Data.Time
 import Data.Typeable
+import System.FilePath (FilePath)
 import Text.Pandoc.Definition (Pandoc)
+
+
+data Blog = Blog { baseUrl :: String
+                 , siteName :: String
+                 , metaDescription :: String
+                 , entriesPerPage :: Int
+                 , baseDirectory :: FilePath
+                 , entryTemplate :: FilePath
+                 , indexTemplate :: FilePath
+                 , tagTemplate :: FilePath
+                 , outputDirectory :: FilePath
+                 , staticDirectory :: FilePath
+                 , dateFormat :: String
+                 , rssLimit :: Int
+                 } deriving (Show, Data, Typeable)
 
 
 data Entry = Entry { doc :: Pandoc
@@ -47,8 +63,6 @@ data IndexNavigation = IndexNavigation { currentIndex :: String
 data IndexPage = IndexPage { entries :: [Entry]
                            , indexNavigation :: IndexNavigation
                            , number :: Int
-                           , siteName :: String
-                           , siteDescription :: String
                            } deriving (Show, Data, Typeable)
 
 

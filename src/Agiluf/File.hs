@@ -1,6 +1,8 @@
 module File where
 
 
+import Data.Configurator
+import Data.Configurator.Types as C
 import System.Cmd
 import System.Directory (createDirectoryIfMissing, doesDirectoryExist, doesFileExist)
 import System.Exit
@@ -16,9 +18,9 @@ import Definition
 --}
 
 
-verifyBlogStructure :: FilePath -> IO Bool
-verifyBlogStructure blog_directory = do
-    config_exists <- doesFileExist $ joinPath [blog_directory, "config"]
+getConfig :: FilePath -> IO C.Config
+getConfig blog_directory = do
+    config_exists <- doesFileExist $ config_path
     root_exists <- checkFolder ""
     enties_exist <- checkFolder "entries"
     templates_exist <- checkFolder "templates"
@@ -30,8 +32,10 @@ verifyBlogStructure blog_directory = do
                 then error "No blog entries folder found."
                 else if not templates_exist
                     then error "No templates folder found."
-                    else return True
-    where checkFolder = blogFolderExists blog_directory
+                    else readConfigFile
+    where config_path = joinPath [blog_directory, "config"]
+          checkFolder = blogFolderExists blog_directory
+          readConfigFile =  load [(Required config_path)]
 
 
 blogFolderExists :: FilePath -> FilePath -> IO Bool
@@ -44,12 +48,17 @@ copyDirectory src dest = system $ "cp -r " ++ src ++ " " ++ dest
 
 
 -- | Create initial output directories.
-createOutputDirectories :: FilePath -> IO ()
-createOutputDirectories output_directory = do
+createOutputDirectories :: IO Blog -> IO ()
+createOutputDirectories blog = do
+    blogConf <- blog
+    let output_directory = outputDirectory blogConf
     createDirectoryIfMissing False output_directory
     createDirectoryIfMissing False (joinPath [output_directory, "tags"])
 
 
--- | Copy statoc files over to the output directory
-copyStaticFiles :: FilePath -> FilePath -> IO ExitCode
-copyStaticFiles static_directory output_directory = copyDirectory static_directory output_directory
+-- | Copy static files over to the output directory
+copyStaticFiles :: IO Blog -> IO ExitCode
+copyStaticFiles blog = do
+    blogConf <- blog
+    copyDirectory (staticDirectory blogConf) (outputDirectory blogConf)
+

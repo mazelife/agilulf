@@ -29,16 +29,15 @@ parseDatestamp input_string = timeFromJust time
         timeFromJust (Just x) = x
 
 
-formatDate:: UTCTime -> String
-formatDate t = formatTime defaultTimeLocale format_string t
-    where format_string = date_format
+formatDate:: String -> UTCTime -> String
+formatDate = formatTime defaultTimeLocale
 
 
-getEntry :: Pandoc -> Entry
-getEntry doc = Entry doc _title _date _displayDate _authors _description _fileName _tags _html
+getEntry :: Blog -> Pandoc -> Entry
+getEntry blog doc = Entry doc _title _date _displayDate _authors _description _fileName _tags _html
     where _title       = getDocTitle doc
           _date        = parseDatestamp $ getDocDate doc
-          _displayDate = formatDate _date
+          _displayDate = formatDate (dateFormat blog) _date
           _authors     = getDocAuthors doc
           _description = getDocDescription doc
           _fileName    = getDocFilename doc
@@ -47,8 +46,8 @@ getEntry doc = Entry doc _title _date _displayDate _authors _description _fileNa
 
 
 -- | Convert a list of pandocs to entry/meta pairs
-getEntries :: IO [Pandoc] -> IO [Entry]
-getEntries pandocs = (map getEntry) <$> pandocs
+getEntries :: Blog -> IO [Pandoc] -> IO [Entry]
+getEntries blog pandocs = (map (getEntry blog)) <$> pandocs
 
 
 -- | Sort a list of entries by date.
@@ -64,6 +63,6 @@ compareEntries a b = case (date a) `compare` (date b) of
     LT -> GT
 
 
-getSortedEntries = sortEntries . getEntries . readEntries
+getSortedEntries  entry_dir blog = sortEntries . (getEntries blog) . readEntries $ entry_dir
 
 

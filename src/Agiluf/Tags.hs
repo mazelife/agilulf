@@ -24,7 +24,6 @@ paginateTagIndex entries = liftM entriesToPages entries
     where entriesToPages es = map (\(t, es) -> TagPage (getTag t) es) (Map.toList $ mapTags es)
 
 
-
 mapTags :: [Entry] -> Map.Map String [Entry]
 mapTags entries = tagMap (concatMap getTags entries)
     where getTags entry = [((tagName tag), entry) | tag <- tags entry]
