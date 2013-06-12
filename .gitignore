@@ -6,3 +6,4 @@ cabal-dev
 *.chs.h
 .hsenv
 example_blog/output*
+*.DS_Store
