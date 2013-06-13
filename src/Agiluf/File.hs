@@ -1,10 +1,12 @@
 module File where
 
 
+import Control.Applicative
 import Data.Configurator
 import Data.Configurator.Types as C
 import System.Cmd
 import System.Directory (createDirectoryIfMissing, doesDirectoryExist, doesFileExist)
+import System.Environment (getArgs)
 import System.Exit
 import System.FilePath (joinPath)
 
@@ -18,6 +20,8 @@ import Definition
 --}
 
 
+-- | Verify the file structure of the specified (in command-line arg) blog directory
+-- | and retrieve create a Configurator object containing blog settings.
 getConfig :: FilePath -> IO C.Config
 getConfig blog_directory = do
     config_exists <- doesFileExist $ config_path
@@ -27,7 +31,7 @@ getConfig blog_directory = do
     if not root_exists
         then error "Blog directory is invalid."
         else if not config_exists
-            then error ("No configuration file found.")
+            then error "No configuration file found."
             else if not enties_exist
                 then error "No blog entries folder found."
                 else if not templates_exist
@@ -38,6 +42,15 @@ getConfig blog_directory = do
           readConfigFile =  load [(Required config_path)]
 
 
+getBlogPath :: IO FilePath
+getBlogPath = do
+    args <- getArgs
+    if null args
+        then error "You must provide a filepath to the blog directory."
+        else return $ head args
+
+
+-- | Does the specified directory exist within the blog root directory?
 blogFolderExists :: FilePath -> FilePath -> IO Bool
 blogFolderExists root folder = doesDirectoryExist $ joinPath [root, folder]
 
@@ -61,4 +74,8 @@ copyStaticFiles :: IO Blog -> IO ExitCode
 copyStaticFiles blog = do
     blogConf <- blog
     copyDirectory (staticDirectory blogConf) (outputDirectory blogConf)
+
+
+
+
 

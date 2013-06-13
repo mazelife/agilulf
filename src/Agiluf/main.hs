@@ -1,13 +1,12 @@
 import System.Environment
 
 import Config (getBlog)
-import File (getConfig)
+import File (getBlogPath, getConfig)
 import Page (publish)
 
 
 main :: IO ()
 main = do
-    putStrLn "Hi!"
-    (blog_path:_) <- getArgs
+    blog_path <- getBlogPath
     let blog = getBlog $ getConfig blog_path
     publish blog
