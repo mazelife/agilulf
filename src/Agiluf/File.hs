@@ -42,6 +42,7 @@ getConfig blog_directory = do
           readConfigFile =  load [(Required config_path)]
 
 
+-- | Get the filepath to the blog from the command line arguments.
 getBlogPath :: IO FilePath
 getBlogPath = do
     args <- getArgs
