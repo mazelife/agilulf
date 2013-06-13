@@ -7,6 +7,5 @@ import Page (publish)
 
 main :: IO ()
 main = do
-    blog_path <- getBlogPath
-    let blog = getBlog $ getConfig blog_path
+    let blog = getBlog $ getBlogPath >>= getConfig
     publish blog
