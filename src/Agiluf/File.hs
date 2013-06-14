@@ -22,24 +22,36 @@ import Definition
 
 -- | Verify the file structure of the specified (in command-line arg) blog directory
 -- | and retrieve create a Configurator object containing blog settings.
-getConfig :: FilePath -> IO C.Config
+getConfig :: FilePath -> IO (String, C.Config)
 getConfig blog_directory = do
-    config_exists <- doesFileExist $ config_path
-    root_exists <- checkFolder ""
-    enties_exist <- checkFolder "entries"
-    templates_exist <- checkFolder "templates"
-    if not root_exists
-        then error "Blog directory is invalid."
-        else if not config_exists
-            then error "No configuration file found."
-            else if not enties_exist
-                then error "No blog entries folder found."
-                else if not templates_exist
-                    then error "No templates folder found."
-                    else readConfigFile
-    where config_path = joinPath [blog_directory, "config"]
-          checkFolder = blogFolderExists blog_directory
-          readConfigFile =  load [(Required config_path)]
+    _checkDirPath "" "blog directory"
+    checkFilePath blog_directory "config" "configuration"
+    _checkDirPath "entries" "blog entries directory"
+    _checkDirPath "templates" "templates directory"
+    conf <- readConfigFile
+    return (blog_directory, conf)
+    where _checkDirPath = checkDirPath blog_directory
+          config_path = joinPath [blog_directory, "config"]
+          readConfigFile = load [(Required config_path)]
+
+
+-- | Does the specified directory exist within the blog root directory?
+-- | Error-out if it does not with a message saying it's missing.
+checkDirPath :: FilePath -> FilePath -> String -> IO Bool
+checkDirPath root dir name = do
+    present <- doesDirectoryExist path
+    if present then return True else error ("No " ++ name ++ " found at " ++ path ++ ".")
+    where path = joinPath [root, dir]
+
+
+-- | Does the specified file exist within the blog root directory?
+-- | Error-out if it does not with a message saying it's missing.
+checkFilePath :: FilePath -> FilePath -> String -> IO Bool
+checkFilePath root dir name = do
+    present <- doesFileExist path
+    if present then return True else error ("No " ++ name ++ " file found at " ++ path ++ ".")
+    where path = joinPath [root, dir]
+
 
 
 -- | Get the filepath to the blog from the command line arguments.
@@ -49,11 +61,6 @@ getBlogPath = do
     if null args
         then error "You must provide a filepath to the blog directory."
         else return $ head args
-
-
--- | Does the specified directory exist within the blog root directory?
-blogFolderExists :: FilePath -> FilePath -> IO Bool
-blogFolderExists root folder = doesDirectoryExist $ joinPath [root, folder]
 
 
 -- | FIXME: Unix/Mac only.

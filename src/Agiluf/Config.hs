@@ -39,8 +39,8 @@ site_name = "My WebSite"
 site_description = "A description of my website"
 
 -- | Get the full path for a blog entry given a page filename.
-get_page_path:: String -> String
-get_page_path filename = joinPath [output_directory, filename]
+get_page_path:: Blog -> String -> FilePath
+get_page_path blog filename = joinPath [(outputDirectory blog), filename]
 
 
 -- | Default Pandoc reader options.
@@ -50,16 +50,15 @@ reader_options = def ReaderOptions
 writer_options = def WriterOptions
 
 
-getBlog :: IO C.Config -> IO Blog
-getBlog conf = do
-    _conf <- conf
+getBlog :: IO (FilePath, C.Config) -> IO Blog
+getBlog confGroup = do
+    (_base_directory, _conf) <- confGroup
     _base_url <- lookupDefault base_url _conf (pack "base_url")
     _site_name <- lookupDefault site_name _conf (pack "site_name")
     _site_description <- lookupDefault site_description _conf (pack "site_description")
     _entries_per_page <- lookupDefault entries_per_page _conf (pack "entries_per_page")
     _date_format <- lookupDefault date_format _conf (pack "date_format")
     _rss_limit <- lookupDefault rss_limit _conf (pack "rss_limit")
-    _base_directory <- lookupDefault base_directory _conf (pack "base_directory")
     let _template_directory = joinPath [_base_directory, "templates"]
     let _entry_template = joinPath [_template_directory, "entry.html"]
     let _index_template = joinPath [_template_directory, "index.html"]

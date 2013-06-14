@@ -28,10 +28,10 @@ paginateEntries entries = fmap paginate entries
           paginate entries = (map makePage (zip entries (getEntryNavigation entries)))
 
 
-renderPage :: String -> EntryPage -> IO ()
-renderPage template page = hastacheStr defaultConfig (encodeStr template) context >>= writePost
+renderPage :: Blog -> String -> EntryPage -> IO ()
+renderPage blog template page = hastacheStr defaultConfig (encodeStr template) context >>= writePost
     where context = mkGenericContext page
-          writePost = LZ.writeFile (get_page_path $ fileName $ entry page)
+          writePost = LZ.writeFile $ get_page_path blog $ fileName $ entry page
 
 
 paginateIndex :: IO [Entry] -> IO Blog -> IO [IndexPage]
@@ -43,18 +43,18 @@ paginateIndex es b = do
     return $ map makePage (paginate entries_per_page entries)
 
 
-renderIndex :: String -> IndexPage -> IO ()
-renderIndex template page = hastacheStr defaultConfig (encodeStr template) context >>= writeIndex
+renderIndex :: Blog -> String -> IndexPage -> IO ()
+renderIndex blog template page = hastacheStr defaultConfig (encodeStr template) context >>= writeIndex
     where context = mkGenericContext page
           slug = if number page == 1 then "index.html" else "page" ++ (show $ number page) ++ ".html"
-          writeIndex = LZ.writeFile (get_page_path slug)
+          writeIndex = LZ.writeFile (get_page_path blog slug)
 
 
-renderTagIndex :: String -> TagPage -> IO ()
-renderTagIndex template page = hastacheStr defaultConfig (encodeStr template) context >>= writeIndex
+renderTagIndex :: Blog -> String -> TagPage -> IO ()
+renderTagIndex blog template page = hastacheStr defaultConfig (encodeStr template) context >>= writeIndex
     where context = mkGenericContext page
           slug = tagHref $ tag page
-          writeIndex = LZ.writeFile (get_page_path slug)
+          writeIndex = LZ.writeFile (get_page_path blog slug)
 
 
 publish blog = do
@@ -68,13 +68,13 @@ publish blog = do
 
     entry_pages <-  paginateEntries es
     entry_template_file <- readFile $ entryTemplate blogConf
-    mapM (renderPage entry_template_file) entry_pages
+    mapM (renderPage blogConf entry_template_file) entry_pages
 
     index_pages <- paginateIndex es blog
     index_template_file <- readFile $ indexTemplate blogConf
-    mapM (renderIndex index_template_file) $ index_pages
+    mapM (renderIndex blogConf index_template_file) $ index_pages
 
     tag_pages <- paginateTagIndex es
     tag_template_file <- readFile $ tagTemplate blogConf
-    mapM (renderTagIndex tag_template_file) $ tag_pages
+    mapM (renderTagIndex blogConf tag_template_file) $ tag_pages
     putStrLn "All done!"
