@@ -1,0 +1,9 @@
+# Basic blog configuration options.
+
+base_url = "http://www.example.com"
+
+site_name = "My WebSite"
+
+site_description = "A description of my website"
+
+entries_per_page = 5

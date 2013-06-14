@@ -19,25 +19,21 @@ A typical project structure::
             lorem-ipsum.rst
             sit-amet.rst
             (etc.)
-            media/
-                photo1.jpg
-                song.mp3
-                (etc.)
         templates/
             entry.html
             index.html
             tag.html
-        media/
-            a-blog-entry-image.jpg
-            another-entry-media.svg
-            (etc.)
         static/
             css/
-                (user-determined)
+                (user/theme determined)
             javascript/
-                (user-determined)
+                (user/theme determined)
             images/
-                (user-determined)
+                (user/theme determined)
+            media/
+                photo1.jpg
+                song.mp3
+                (etc.)
         publish/
             index.html
             page2.html
@@ -47,8 +43,6 @@ A typical project structure::
                 lorem-ipsum.html
                 sit-amet.html
                 (etc.)
-            media/
-                (copied from above)
             static/
                 (copied from above)
             tags/
