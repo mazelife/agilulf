@@ -19,6 +19,10 @@ A typical project structure::
             lorem-ipsum.rst
             sit-amet.rst
             (etc.)
+            media/
+                photo1.jpg
+                song.mp3
+                (etc.)
         templates/
             entry.html
             index.html
