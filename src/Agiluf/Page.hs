@@ -22,19 +22,16 @@ import File
 import Tags
 
 
-
 paginateEntries :: IO [Entry] -> IO [EntryPage]
-paginateEntries es = do
-    entries <- es
-    let makePage (entry, nav) = EntryPage entry nav
-    return (map makePage (zip entries (getEntryNavigation entries)))
+paginateEntries entries = fmap paginate entries
+    where makePage (entry, nav) = EntryPage entry nav
+          paginate entries = (map makePage (zip entries (getEntryNavigation entries)))
 
 
 renderPage :: String -> EntryPage -> IO ()
-renderPage template page = do
-    let context = mkGenericContext page
-    let writePost = LZ.writeFile (get_page_path $ fileName $ entry page)
-    hastacheStr defaultConfig (encodeStr template) context >>= writePost
+renderPage template page = hastacheStr defaultConfig (encodeStr template) context >>= writePost
+    where context = mkGenericContext page
+          writePost = LZ.writeFile (get_page_path $ fileName $ entry page)
 
 
 paginateIndex :: IO [Entry] -> IO Blog -> IO [IndexPage]
@@ -47,19 +44,17 @@ paginateIndex es b = do
 
 
 renderIndex :: String -> IndexPage -> IO ()
-renderIndex template page = do
-    let context = mkGenericContext page
-    let slug = if number page == 1 then "index.html" else "page" ++ (show $ number page) ++ ".html"
-    let writeIndex = LZ.writeFile (get_page_path slug)
-    hastacheStr defaultConfig (encodeStr template) context >>= writeIndex
+renderIndex template page = hastacheStr defaultConfig (encodeStr template) context >>= writeIndex
+    where context = mkGenericContext page
+          slug = if number page == 1 then "index.html" else "page" ++ (show $ number page) ++ ".html"
+          writeIndex = LZ.writeFile (get_page_path slug)
 
 
 renderTagIndex :: String -> TagPage -> IO ()
-renderTagIndex template page = do
-    let context = mkGenericContext page
-    let slug = tagHref $ tag page
-    let writeIndex = LZ.writeFile (get_page_path slug)
-    hastacheStr defaultConfig (encodeStr template) context >>= writeIndex
+renderTagIndex template page = hastacheStr defaultConfig (encodeStr template) context >>= writeIndex
+    where context = mkGenericContext page
+          slug = tagHref $ tag page
+          writeIndex = LZ.writeFile (get_page_path slug)
 
 
 publish blog = do
