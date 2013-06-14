@@ -6,6 +6,6 @@ import Page (publish)
 
 
 main :: IO ()
-main = do
-    let blog = getBlog $ getBlogPath >>= getConfig
-    publish blog
+main = publish blog
+    where blog = getBlog $ getBlogPath >>= getConfig
+
