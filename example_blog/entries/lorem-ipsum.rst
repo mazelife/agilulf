@@ -16,7 +16,12 @@ Eu case philosophia vis. At postea expetenda theophrastus ius. Agam ignota pri e
 
 Te elit fabulas reformidans qui, mel ut propriae mediocrem interesset, id duo ornatus qualisque. Vero mazim at mel, mei et vidit causae. Mei purto populo an, eum at utroque epicurei. Everti appellantur nam ad, nec iuvaret phaedrum euripidis ad. Expetenda periculis molestiae sed cu, pri ne denique efficiendi.
 
+
+.. image: media/arches_np.png
+
 Hinc diceret sea cu, consul dicunt iisque id his. Diam prima cu mel, ne ponderum interpretaris ius. Ut per aliquid voluptaria disputando, ea eam ornatus necessitatibus. Ut sit dicta efficiendi intellegebat.
+
+
 
 Subheading
 ^^^^^^^^^^^^
