@@ -74,6 +74,12 @@ getDocDescription doc = snd $ last desc
         desc = filter (\p -> fst p == "description") def_list
 
 
+getDocImage :: Pandoc -> String
+getDocImage doc = if null image then "" else snd $ last image
+  where def_list = getDocDefinitionList doc
+        image = filter (\p -> fst p == "image") def_list
+
+
 getDocHtml :: Pandoc -> String
 getDocHtml = writeHtmlString writer_options . removeInitialDefinitionList
 

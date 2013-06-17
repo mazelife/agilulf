@@ -34,7 +34,7 @@ formatDate = formatTime defaultTimeLocale
 
 
 getEntry :: Blog -> Pandoc -> Entry
-getEntry blog doc = Entry doc _title _date _displayDate _authors _description _fileName _tags _html
+getEntry blog doc = Entry doc _title _date _displayDate _authors _description _fileName _tags _image _html
     where _title       = getDocTitle doc
           _date        = parseDatestamp $ getDocDate doc
           _displayDate = formatDate (dateFormat blog) _date
@@ -42,6 +42,7 @@ getEntry blog doc = Entry doc _title _date _displayDate _authors _description _f
           _description = getDocDescription doc
           _fileName    = getDocFilename doc
           _tags        = getDocTags doc
+          _image       = getDocImage doc
           _html        = getDocHtml doc
 
 
