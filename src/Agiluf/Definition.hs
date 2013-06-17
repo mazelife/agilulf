@@ -34,6 +34,7 @@ data Entry = Entry { doc :: Pandoc
                    , description :: String
                    , fileName :: String
                    , tags :: [Tag]
+                   , image :: String
                    , html :: String
                    } deriving (Show, Data, Typeable)
 
