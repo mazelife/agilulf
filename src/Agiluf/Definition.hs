@@ -19,11 +19,13 @@ data Blog = Blog { baseUrl :: String
                  , entryTemplate :: FilePath
                  , indexTemplate :: FilePath
                  , tagTemplate :: FilePath
+                 , rssTemplate :: FilePath
                  , outputDirectory :: FilePath
                  , staticDirectory :: FilePath
                  , dateFormat :: String
                  , rssLimit :: Int
                  } deriving (Show, Data, Typeable)
+
 
 
 data Entry = Entry { doc :: Pandoc
@@ -82,4 +84,5 @@ data RSSDoc = RSSDoc { rssEntries :: [Entry]
                      , rssDescription :: String
                      , rssLink :: String
                      , lastUpdated :: String
+                     , buildDate :: String
                      } deriving (Show, Data, Typeable)

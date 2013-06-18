@@ -25,6 +25,8 @@ entry_template = joinPath [template_directory, "entry.html"]
 index_template = joinPath [template_directory, "index.html"]
 -- | The path to the tag index page template.
 tag_template = joinPath [template_directory, "tag.html"]
+-- | The path to the RSS feed template
+rss_template = joinPath [template_directory, "rss.xml"]
 -- | The directory where the static site should be published
 output_directory = joinPath [base_directory, "output"]
 -- | The path to the JSON index
@@ -63,6 +65,7 @@ getBlog confGroup = do
     let _entry_template = joinPath [_template_directory, "entry.html"]
     let _index_template = joinPath [_template_directory, "index.html"]
     let _tag_template = joinPath [_template_directory, "tag.html"]
+    let _rss_template = joinPath [_template_directory, "rss.xml"]
     let _output_directory = joinPath [_base_directory, "output"]
     let _static_directory = joinPath [_base_directory, "static"]
-    return $ Blog _base_url _site_name _site_description _entries_per_page _base_directory _entry_template _index_template _tag_template _output_directory _static_directory _date_format _rss_limit
+    return $ Blog _base_url _site_name _site_description _entries_per_page _base_directory _entry_template _index_template _tag_template _rss_template _output_directory _static_directory _date_format _rss_limit

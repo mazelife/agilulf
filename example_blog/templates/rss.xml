@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+<channel>
+<title>{{rssTitle}}</title>
+<description>{{rssDescription}}</description>
+<link>{{rssLink}}</link>
+<lastBuildDate>{{buildDate}}</lastBuildDate>
+<pubDate>{{lastUpdated}}</pubDate>
+<ttl>1800</ttl>
+
+{{#rssEntries}}
+    <item>
+    <title>{{title}}</title>
+    <description>{{description}}</description>
+    <link>{{fileName}}</link>
+    <guid>{{fileName}}</guid>
+    <pubDate>{{displayDate}}</pubDate>
+    </item>
+{{/rssEntries}}
+</channel>
+</rss>

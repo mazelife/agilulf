@@ -6,6 +6,7 @@ import Control.Monad
 import Control.Monad.State
 import qualified Data.ByteString.Lazy.Char8 as LZ
 import Data.Data
+import Data.Time
 import System.Directory (createDirectoryIfMissing)
 import System.FilePath (joinPath)
 import Text.Hastache
@@ -16,9 +17,10 @@ import Text.Pandoc.Readers.RST (readRST)
 import Config
 import Definition
 import Entry (getSortedEntries)
+import File
 import Navigation (getEntryNavigation, paginate)
 import Pandoc (readEntries)
-import File
+import RSS (getRSSDoc, renderRSS)
 import Tags
 
 
@@ -77,4 +79,10 @@ publish blog = do
     tag_pages <- paginateTagIndex es
     tag_template_file <- readFile $ tagTemplate blogConf
     mapM (renderTagIndex blogConf tag_template_file) $ tag_pages
+
+    rss_template_file <- readFile $ rssTemplate blogConf
+    rss <- getRSSDoc getCurrentTime blog es
+    renderRSS blogConf rss_template_file rss
+
+
     putStrLn "All done!"
