@@ -59,6 +59,12 @@ renderTagIndex blog template page = hastacheStr defaultConfig (encodeStr templat
           writeIndex = LZ.writeFile (get_page_path blog slug)
 
 
+renderErrorPage :: Blog -> String -> IO ()
+renderErrorPage blog template = hastacheStr defaultConfig (encodeStr template) (mkStrContext context) >>= writeError
+    where context "name" = MuVariable ""  -- No particular context is needed for the error page.
+          writeError = LZ.writeFile (get_page_path blog "404.html")
+
+
 publish blog = do
 
     createOutputDirectories blog
@@ -79,6 +85,9 @@ publish blog = do
     tag_pages <- paginateTagIndex es
     tag_template_file <- readFile $ tagTemplate blogConf
     mapM (renderTagIndex blogConf tag_template_file) $ tag_pages
+
+    error_template_file <- readFile $ errorTemplate $ blogConf
+    renderErrorPage blogConf error_template_file
 
     rss_template_file <- readFile $ rssTemplate blogConf
     rss <- getRSSDoc getCurrentTime blog es

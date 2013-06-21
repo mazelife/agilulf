@@ -19,6 +19,7 @@ data Blog = Blog { baseUrl :: String
                  , entryTemplate :: FilePath
                  , indexTemplate :: FilePath
                  , tagTemplate :: FilePath
+                 , errorTemplate :: FilePath
                  , rssTemplate :: FilePath
                  , outputDirectory :: FilePath
                  , staticDirectory :: FilePath
