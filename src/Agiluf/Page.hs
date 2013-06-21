@@ -65,6 +65,11 @@ renderErrorPage blog template = hastacheStr defaultConfig (encodeStr template) (
           writeError = LZ.writeFile (get_page_path blog "404.html")
 
 
+showStatus :: IO [Entry] -> IO ()
+showStatus entries = entries >>= getMessage
+    where getMessage es = putStrLn $ "Published " ++ (show $ length es) ++ " blog entries."
+
+
 publish blog = do
 
     createOutputDirectories blog
@@ -93,5 +98,4 @@ publish blog = do
     rss <- getRSSDoc getCurrentTime blog es
     renderRSS blogConf rss_template_file rss
 
-
-    putStrLn "All done!"
+    showStatus es
