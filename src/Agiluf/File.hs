@@ -4,13 +4,22 @@ module File where
 import Control.Applicative
 import Data.Configurator
 import Data.Configurator.Types as C
+import qualified Data.ByteString as DB
+import qualified Data.ByteString.Char8 as CH
+import qualified Data.ByteString.Lazy as LZ
+import Data.Text (pack)
 import System.Cmd
 import System.Directory (createDirectoryIfMissing, doesDirectoryExist, doesFileExist)
 import System.Environment (getArgs)
 import System.Exit
 import System.FilePath (joinPath)
+import Text.Hastache
+import Text.Hastache.Context
 
+
+import Config (post_publish_command)
 import Definition
+
 
 
 {--
@@ -84,6 +93,9 @@ copyStaticFiles blog = do
     copyDirectory (staticDirectory blogConf) (outputDirectory blogConf)
 
 
+postPublishHook :: IO (String, C.Config) -> IO Blog -> IO ()
+postPublishHook conf blog = conf >>= getCommand >>= system >> return ()
 
-
-
+getCommand :: (String, C.Config) -> IO String
+getCommand (base_directory, conf) = liftA addEnv (lookupDefault post_publish_command conf (pack "post_publish_command"))
+    where addEnv command = "( export ROOT=\"" ++ base_directory ++ "\"; " ++ command ++ " )"

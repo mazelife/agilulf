@@ -39,6 +39,8 @@ rss_limit = 10
 site_name = "My WebSite"
 -- | Site description
 site_description = "A description of my website"
+-- | Post-publish hook
+post_publish_command = ""
 
 -- | Get the full path for a blog entry given a page filename.
 get_page_path:: Blog -> String -> FilePath

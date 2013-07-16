@@ -1,11 +1,12 @@
+import Control.Monad
 import System.Environment
 
 import Config (getBlog)
-import File (getBlogPath, getConfig)
+import File (getBlogPath, getConfig, postPublishHook)
 import Page (publish)
 
 
 main :: IO ()
-main = publish blog
-    where blog = getBlog $ getBlogPath >>= getConfig
-
+main = publish blog >> postPublishHook conf blog
+    where conf = getBlogPath >>= getConfig
+          blog = getBlog $ conf
