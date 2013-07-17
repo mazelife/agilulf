@@ -93,9 +93,13 @@ copyStaticFiles blog = do
     copyDirectory (staticDirectory blogConf) (outputDirectory blogConf)
 
 
-postPublishHook :: IO (String, C.Config) -> IO Blog -> IO ()
-postPublishHook conf blog = conf >>= getCommand >>= system >> return ()
+postPublishHook :: IO (String, C.Config) -> IO ()
+postPublishHook conf = conf >>= getCommand >>= optSystem >> return ()
 
 getCommand :: (String, C.Config) -> IO String
 getCommand (base_directory, conf) = liftA addEnv (lookupDefault post_publish_command conf (pack "post_publish_command"))
-    where addEnv command = "( export ROOT=\"" ++ base_directory ++ "\"; " ++ command ++ " )"
+    where addEnv command = "( export AGILUF_ROOT=\"" ++ base_directory ++ "\"; " ++ command ++ " )"
+
+
+optSystem :: String -> IO ExitCode
+optSystem command = if null command then exitSuccess else system command

@@ -7,6 +7,6 @@ import Page (publish)
 
 
 main :: IO ()
-main = publish blog >> postPublishHook conf blog
+main = publish blog >> postPublishHook conf
     where conf = getBlogPath >>= getConfig
           blog = getBlog $ conf
