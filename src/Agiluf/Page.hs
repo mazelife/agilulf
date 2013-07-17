@@ -70,6 +70,7 @@ showStatus entries = entries >>= getMessage
     where getMessage es = putStrLn $ "Published " ++ (show $ length es) ++ " blog entries."
 
 
+publish :: IO Blog -> IO ()
 publish blog = do
 
     createOutputDirectories blog
